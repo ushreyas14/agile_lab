@@ -6,9 +6,12 @@ DATA_FILE = 'data.json'
 
 
 def load_data():
-    if os.path.exists(DATA_FILE):
+    if os.path.exists(DATA_FILE) and os.path.getsize(DATA_FILE) > 0:
         with open(DATA_FILE, 'r') as f:
-            return json.load(f)
+            try:
+                return json.load(f)
+            except json.JSONDecodeError:
+                print(f"Warning: {DATA_FILE} is empty or corrupted; starting fresh.")
     return {'students': [], 'attendance': {}}
 
 
