@@ -1,0 +1,184 @@
+================================================================
+  STUDENT ATTENDANCE APP — COMMIT & RUN GUIDE
+================================================================
+
+
+----------------------------------------------------------------
+  FOLDER STRUCTURE
+----------------------------------------------------------------
+
+  app/
+  ├── app.py                    Main Flask application
+  ├── requirements.txt          Python package list
+  ├── Dockerfile                Docker build instructions
+  ├── docker-compose.yml        Run with Docker Compose
+  ├── attendance_lab.ipynb      Jupyter notebook (code + explanation)
+  ├── GUIDE.txt                 This file
+  ├── .gitignore                Files git should ignore
+  ├── templates/
+  │   ├── index.html            Home page — list and add students
+  │   ├── attendance.html       Daily attendance marking form
+  │   └── records.html          View all historical records
+  ├── tests/
+  │   ├── conftest.py           Pytest fixtures (isolated test DB)
+  │   ├── test_app.py           4 unit tests (pytest)
+  │   └── test_selenium.py      3 Selenium browser tests
+  └── .github/
+      └── workflows/
+          └── ci.yml            GitHub Actions CI/CD pipeline
+
+
+----------------------------------------------------------------
+  STEP 1 — INSTALL DEPENDENCIES
+----------------------------------------------------------------
+
+  Open a terminal, go into this folder, then run:
+
+      pip install -r requirements.txt
+
+
+----------------------------------------------------------------
+  STEP 2 — RUN THE APP (3 ways)
+----------------------------------------------------------------
+
+  Option A — Run directly with Python:
+  ─────────────────────────────────────
+      python app.py
+
+      Then open your browser at:   http://localhost:5000
+
+
+  Option B — Run with Docker:
+  ────────────────────────────
+      docker-compose up --build
+
+      Then open your browser at:   http://localhost:5000
+
+      To stop:   docker-compose down
+
+
+  Option C — Run in background (Docker detached):
+  ─────────────────────────────────────────────────
+      docker-compose up --build -d
+      docker-compose logs -f        (to watch logs)
+      docker-compose down           (to stop)
+
+
+----------------------------------------------------------------
+  STEP 3 — RUN TESTS
+----------------------------------------------------------------
+
+  Unit tests — 4 tests, no browser needed:
+      pytest tests/test_app.py -v
+
+  All tests at once:
+      pytest -v
+
+  Selenium tests — needs Chrome installed, app must be running
+  on port 5001 in a separate terminal:
+      pytest tests/test_selenium.py -v
+
+
+----------------------------------------------------------------
+  STEP 4 — GIT SETUP (first time only)
+----------------------------------------------------------------
+
+  1. Initialize a new repo inside this folder:
+         cd app
+         git init
+
+  2. Set your name and email so git knows who is committing:
+         git config user.name  "Your Name"
+         git config user.email "you@example.com"
+
+  3. Stage all files:
+         git add .
+
+  4. Verify what will be committed:
+         git status
+
+  5. Make the first commit:
+         git commit -m "initial commit: student attendance app"
+
+
+----------------------------------------------------------------
+  STEP 5 — DAILY GIT WORKFLOW
+----------------------------------------------------------------
+
+  After making changes to any file:
+
+  Stage one specific file:
+      git add app.py
+
+  Stage everything at once:
+      git add .
+
+  Check what is staged vs changed:
+      git status
+
+  See what exactly changed line by line:
+      git diff
+
+  Commit with a message:
+      git commit -m "feat: add student remove functionality"
+
+  View commit history:
+      git log --oneline
+
+
+----------------------------------------------------------------
+  STEP 6 — PUSH TO GITHUB
+----------------------------------------------------------------
+
+  1. Create a new repo on github.com (do NOT add README or .gitignore there).
+
+  2. Link your local repo to GitHub:
+         git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
+
+  3. Push your code:
+         git push -u origin main
+
+  4. For every future push:
+         git push
+
+
+----------------------------------------------------------------
+  STEP 7 — CI/CD (GitHub Actions)
+----------------------------------------------------------------
+
+  The file .github/workflows/ci.yml runs automatically on every
+  push to main or develop, and on every pull request to main.
+
+  It does two things in order:
+    1. Runs pytest tests/test_app.py   → all 4 tests must pass
+    2. Builds the Docker image         → confirms app containerizes
+
+  You can see results at:
+      https://github.com/YOUR_USERNAME/YOUR_REPO/actions
+
+  To run tests locally before pushing (good habit):
+      pytest tests/test_app.py -v && echo "All good, safe to push"
+
+
+----------------------------------------------------------------
+  STEP 8 — GOOD COMMIT MESSAGE CONVENTIONS
+----------------------------------------------------------------
+
+  Format:   <type>: <short description>
+
+  Types:
+    feat      — new feature
+    fix       — bug fix
+    test      — adding or fixing tests
+    docs      — documentation only
+    refactor  — code change that is not a fix or feature
+    chore     — build process, dependency updates
+
+  Examples:
+    git commit -m "feat: add student remove functionality"
+    git commit -m "fix: prevent duplicate student names"
+    git commit -m "test: add selenium test for attendance page"
+    git commit -m "chore: add docker-compose volume for persistence"
+
+
+================================================================

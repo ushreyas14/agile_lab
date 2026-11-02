@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Attendance</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; background: #f5f5f5; }
+        h1 { color: #333; border-bottom: 2px solid #4CAF50; padding-bottom: 10px; }
+        .nav a { margin-right: 15px; color: #4CAF50; text-decoration: none; font-weight: bold; }
+        .card { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .attendance-row { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #eee; }
+        .radio-group label { margin-right: 15px; cursor: pointer; }
+        .present-label { color: #4CAF50; font-weight: bold; }
+        .absent-label { color: #e53935; font-weight: bold; }
+        button { padding: 10px 24px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 15px; }
+        button:hover { background: #45a049; }
+        .date-badge { background: #4CAF50; color: white; padding: 4px 12px; border-radius: 12px; font-size: 14px; }
+        .empty { color: #999; font-style: italic; }
+    </style>
+</head>
+<body>
+    <h1>Mark Attendance</h1>
+    <div class="nav">
+        <a href="/">Home</a>
+        <a href="/attendance">Mark Attendance</a>
+        <a href="/records">View Records</a>
+    </div>
+
+    <div class="card">
+        <h2>Date: <span class="date-badge">{{ today }}</span></h2>
+        {% if students %}
+        <form action="/attendance" method="POST">
+            {% for student in students %}
+            <div class="attendance-row">
+                <span><strong>{{ student }}</strong></span>
+                <div class="radio-group">
+                    <label class="present-label">
+                        <input type="radio" name="attendance_{{ student }}" value="present"
+                            {% if current.get(student) == 'present' %}checked{% elif not current.get(student) %}checked{% endif %}>
+                        Present
+                    </label>
+                    <label class="absent-label">
+                        <input type="radio" name="attendance_{{ student }}" value="absent"
+                            {% if current.get(student) == 'absent' %}checked{% endif %}>
+                        Absent
+                    </label>
+                </div>
+            </div>
+            {% endfor %}
+            <button type="submit">Save Attendance</button>
+        </form>
+        {% else %}
+            <p class="empty">No students found. <a href="/">Add students first.</a></p>
+        {% endif %}
+    </div>
+</body>
+</html>

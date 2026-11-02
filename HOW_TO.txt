@@ -1,0 +1,23 @@
+HOW TO RUN AND COMMIT
+======================
+
+RUN THE APP
+-----------
+1. Open terminal in the app folder
+2. Run:
+   python app.py
+
+3. Use the menu to manage students and attendance.
+   Data is saved automatically to data.json
+
+
+COMMIT TO GIT
+-------------
+1. Stage your changes:
+   git add .
+
+2. Commit with a message:
+   git commit -m "your message here"
+
+3. Push to GitHub:
+   git push origin main
